@@ -1,4 +1,4 @@
-np"use strict";
+"use strict";
 
 $(document).ready(function() {
 
@@ -20,6 +20,7 @@ $(document).ready(function() {
                 window.location = result.redirect;
             },
             error: function(xhr, status, error) {
+				//console.log(xhr.responseText);
                 var messageObj = JSON.parse(xhr.responseText);
             
                 handleError(messageObj.error);

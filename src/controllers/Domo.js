@@ -11,7 +11,9 @@ var makerPage = function(req,res){
 			console.log(err);
 			return res.status(400).json({error:'An error occurred'});
 		}
-		res.render('app', {domos: docs});
+		//res.render('app', {domos: docs});
+	res.render('app', {csrfToken: req.csrfToken(), domos: docs});
+	
 	});
 	
 };

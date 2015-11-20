@@ -61,6 +61,7 @@ app.use(session({
 //sets up the views for use
 app.set('view engine', 'jade'); 
 app.set('views', __dirname + '/views');
+
 app.disable('x-powered-by');
 app.use(cookieParser());
 

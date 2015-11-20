@@ -4,7 +4,6 @@ $(document).ready(function() {
 
     function handleError(message) {
         $("#errorMessage").text(message);
-        $("#domoMessage").animate({width:'toggle'},350);
     }
     
     function sendAjax(action, data) {
@@ -15,13 +14,13 @@ $(document).ready(function() {
             data: data,
             dataType: "json",
             success: function(result, status, xhr) {
-                $("#domoMessage").animate({width:'hide'},350);
-
+				console.log(xhr.responseText);
                 window.location = result.redirect;
             },
             error: function(xhr, status, error) {
+				console.log(xhr.responseText);
                 var messageObj = JSON.parse(xhr.responseText);
-            
+				console.log(messageObj); 
                 handleError(messageObj.error);
             }
         });        
@@ -30,15 +29,13 @@ $(document).ready(function() {
     $("#signupSubmit").on("click", function(e) {
         e.preventDefault();
     
-        $("#domoMessage").animate({width:'hide'},350);
-    
-        if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-            handleError("RAWR! All fields are required");
+	//if any of the fields are empty
+        if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#wWin").val() == '' || $("#wLoss").val() == '' || $("#vWin").val() == ''|| $("#vLoss").val() == '') {
+            handleError("All fields are required!");
             return false;
         }
-        
         if($("#pass").val() !== $("#pass2").val()) {
-            handleError("RAWR! Passwords do not match");
+            handleError("Passwords do not match");
             return false;           
         }
 
@@ -50,14 +47,25 @@ $(document).ready(function() {
     $("#loginSubmit").on("click", function(e) {
         e.preventDefault();
     
-        $("#domoMessage").animate({width:'hide'},350);
-    
         if($("#user").val() == '' || $("#pass").val() == '') {
-            handleError("RAWR! Username or password is empty");
+            handleError("Username or password is empty!");
             return false;
         }
     
         sendAjax($("#loginForm").attr("action"), $("#loginForm").serialize());
+
+        return false;
+    });
+	
+	$("#searchSubmit").on("click", function(e) {
+        e.preventDefault();
+		
+		if($("#searchName").val() == '') {
+            handleError("The username is blank!");
+            return false;
+        }
+    
+        sendAjax($("#searchForm").attr("action"), $("#searchForm").serialize());
 
         return false;
     });

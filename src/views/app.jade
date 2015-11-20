@@ -3,32 +3,29 @@ block append style
     link(rel="stylesheet", type="text/css", href="/assets/style.css")
 block body
   nav
-    a(href="/login")
-      img#logo(src="/assets/img/face.png", alt="face logo")
     .navlink
       a(href="/logout") Log out
-  section#makeDomo
-    form#domoForm(class="domoForm", name="domoForm", action="/maker", method="POST")
-      label(for="name") Name: 
-      input#domoName(type="text", name="name", placeholder="Domo Name")
-      label(for="age") Age: 
-      input#domoAge(type="text", name="age", placeholder="Domo Age")
+   section#search 
+    h2.main Compare your stats to friends!
+    form#searchForm(class="searchForm", name="searchForm", action="/statCheck", method="POST")
+      label(for="searchName") Username: 
+      input#searchName(type="text", name="searchName", placeholder="username")
       input(type="hidden", name="_csrf", value="#{csrfToken}")
-      a#makeDomoSubmit(class="makeDomoSubmit", href="#") Make Domo
-  section#domos
-    if !domos || domos.length == 0
-      div.domo
-        h3.emptyDomo No Domos yet
-    else
-      each val in domos
-        div.domo
-          img(class "domoFace", src "/assets/img/domodface.jpeg", alt "domo face")
-          h3.domoName Name: #{val.name}
-          h3.domoAge Age: #{val.age}
-  #domoMessage
-    img#speech(src="/assets/img/speech.png", alt="speech box")
-    h3
-      span#errorMessage
-    img#domo(src="assets/img/domo.png", alt="domo")
+      a#searchSubmit(class="searchSubmit", href="#") Search
+  section#stats
+     div.player
+       h2.title Your Stats:
+       h3.playerls Werewolf Wins: #{player.wolfWin}
+       h3.playerrs Werewolf Losses: #{player.wolfLoss}
+       h3.playerls Villager Wins: #{player.villWin}
+       h3.playerrs Villager Losses: #{player.villLoss}
+  section#result
+     if result
+       div.player
+         h2.title #{result.username}'s Stats:
+         h3.playerls Werewolf Wins: #{result.wolfWin}
+         h3.playerrs Werewolf Losses: #{result.wolfLoss}
+         h3.playerls Villager Wins: #{result.villWin}
+         h3.playerrs Villager Losses: #{result.villLoss}
 block scripts
-        script(src="/assets/maker.js")
+        script(src="/assets/client.js")

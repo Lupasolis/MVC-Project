@@ -28,18 +28,44 @@ var AccountSchema = new mongoose.Schema({
     createdData: {
         type: Date,
         default: Date.now
-    }
-
+    },
+	wolfWin: {
+		type: Number,
+		required: true,
+	},
+	
+	wolfLoss: {
+		type: Number,
+		min: 0,
+		required: true
+	},
+	
+	villWin: {
+		type: Number,
+		min: 0,
+		required: true
+	},
+	
+	villLoss: {
+		type: Number,
+		min: 0,
+		required: true
+	},
+	
 });
 
 AccountSchema.methods.toAPI = function() {
-    //_id is built into your mongo document and is guaranteed to be unique
     return {
         username: this.username,
-        _id: this._id 
+        _id: this._id,
+		wolfWin: this.wolfWin,
+		wolfLoss: this.wolfLoss,
+		villWin: this.villWin,
+		villLoss: this.villLoss
     };
 };
 
+//validates the user's password
 AccountSchema.methods.validatePassword = function(password, callback) {
 	var pass = this.password;
 	
@@ -60,6 +86,16 @@ AccountSchema.statics.findByUsername = function(name, callback) {
     return AccountModel.findOne(search, callback);
 };
 
+AccountSchema.statics.findByOwner = function(ownerId, callback){
+
+	var search = {
+		_id: mongoose.Types.ObjectId(ownerId)
+	};
+	
+	return AccountModel.find(search).select("wolfWin wolfLoss villWin villLoss").exec(callback);
+};
+
+
 AccountSchema.statics.generateHash = function(password, callback) {
 	var salt = crypto.randomBytes(saltLength);
 	
@@ -68,6 +104,7 @@ AccountSchema.statics.generateHash = function(password, callback) {
 	});
 };
 
+//authenticates the account using the username and password
 AccountSchema.statics.authenticate = function(username, password, callback) {
 	return AccountModel.findByUsername(username, function(err, doc) {
 

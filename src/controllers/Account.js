@@ -54,9 +54,11 @@ var search = function(req,res){
 			console.log(err);
 			return res.status(400).json({error: 'An error occurred'});
 		}
-		//console.log(doc); 
-		//res.render('app', {csrfToken: req.csrfToken(), username: docs});
-		res.json({redirect:'/statCheck?username=' + docs.username}); 
+		else{
+			console.log(docs); 
+			//res.render('app', {csrfToken: req.csrfToken(), username: docs});
+			res.json({redirect:'/statCheck?username=' + docs.username}); 
+		}
 	});
 };
 

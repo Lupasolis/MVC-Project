@@ -8,7 +8,8 @@ block body
     .navlink
       a(href="/signup") Sign up
   section#login
-    h2.mainTitle Wolf Night Stat Tracker
+    div.logoDiv
+      img#logo(src="/assets/img/logo2.png", alt="wolf logo")
     form#loginForm(class="mainForm", name="loginForm", action="/login", method="POST")
       label(for="username") Username: 
       input#user(type="text", name="username", placeholder="username")

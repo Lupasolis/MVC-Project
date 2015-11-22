@@ -1,6 +1,7 @@
 var path = require('path');
 var express = require('express');
 var compression = require('compression');
+var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); 
@@ -61,7 +62,7 @@ app.use(session({
 //sets up the views for use
 app.set('view engine', 'jade'); 
 app.set('views', __dirname + '/views');
-
+app.use(favicon(__dirname +'/../client/img/favicon.ico'));
 app.disable('x-powered-by');
 app.use(cookieParser());
 
